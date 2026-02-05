@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rust-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rust-backend
+  template:
+    metadata:
+      labels:
+        app: rust-backend
+    spec:
+      containers:
+      - name: rust-backend
+        image: rust-backend:latest
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rust-backend
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 3000
+  selector:
+    app: rust-backend
